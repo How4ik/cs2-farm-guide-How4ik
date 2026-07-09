@@ -6,9 +6,11 @@
     name: 'Гайд по ферме CS',
     repo: '',
     basePath: '/',
+    homepage: 'README.md',
     relativePath: true,
     loadSidebar: true,
     alias: {
+      '/': '/README.md',
       '/.*/_sidebar.md': '/_sidebar.md',
     },
     subMaxLevel: 0,
@@ -17,6 +19,11 @@
       placeholder: 'Поиск...',
       noData: 'Ничего не найдено',
       depth: 3,
+    },
+    fetch: function (url, options) {
+      options = options || {};
+      options.credentials = 'include';
+      return fetch(url, options);
     },
   };
 
