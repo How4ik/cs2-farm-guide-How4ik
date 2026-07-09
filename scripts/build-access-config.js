@@ -17,9 +17,14 @@ function parseKeys(raw) {
 }
 
 function loadKeys() {
-  if (process.env.ACCESS_KEYS) {
-    return parseKeys(process.env.ACCESS_KEYS);
+  const parts = [process.env.ACCESS_KEYS];
+  for (let i = 2; i <= 10; i += 1) {
+    const value = process.env[`ACCESS_KEYS_${i}`];
+    if (value) parts.push(value);
   }
+
+  const fromEnv = parts.filter(Boolean).join(',');
+  if (fromEnv) return parseKeys(fromEnv);
 
   const keysFile = path.join(root, 'access-keys.txt');
   if (fs.existsSync(keysFile)) {
