@@ -5,7 +5,7 @@ dist/
 Thumbs.db
 *.log
 access-keys.txt
-access-keys-netlify.txt
+access-keys-netlify*.txt
 access/config.js
 .env
 .env.*

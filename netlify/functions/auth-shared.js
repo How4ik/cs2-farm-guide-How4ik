@@ -12,8 +12,15 @@ function getSecret() {
 }
 
 function getAllowedKeys() {
-  const raw = process.env.ACCESS_KEYS || '';
-  return raw
+  const parts = [process.env.ACCESS_KEYS];
+  for (let i = 2; i <= 10; i += 1) {
+    const value = process.env[`ACCESS_KEYS_${i}`];
+    if (value) parts.push(value);
+  }
+
+  return parts
+    .filter(Boolean)
+    .join(',')
     .split(/[\n,;]+/)
     .map((k) => k.trim().toUpperCase())
     .filter(Boolean);
