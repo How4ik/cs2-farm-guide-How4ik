@@ -42,6 +42,9 @@
   function unlockGuide() {
     document.body.classList.remove('access-locked');
     gate.classList.add('hidden');
+    if (!location.hash || location.hash === '#') {
+      location.hash = '#/';
+    }
     if (!window.__docsifyBooted) {
       var bootScript = document.createElement('script');
       bootScript.src = 'access/boot.js';

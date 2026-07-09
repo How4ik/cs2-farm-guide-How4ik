@@ -2,6 +2,15 @@
   if (window.__docsifyBooted) return;
   window.__docsifyBooted = true;
 
+  function ensureHashRoute() {
+    var hash = location.hash;
+    if (!hash || hash === '#') {
+      location.replace(location.pathname + location.search + '#/');
+    }
+  }
+
+  ensureHashRoute();
+
   window.$docsify = {
     name: 'Гайд по ферме CS',
     repo: '',
@@ -10,6 +19,7 @@
     relativePath: true,
     loadSidebar: true,
     alias: {
+      '': '/README.md',
       '/': '/README.md',
       '/.*/_sidebar.md': '/_sidebar.md',
     },
@@ -20,11 +30,17 @@
       noData: 'Ничего не найдено',
       depth: 3,
     },
-    fetch: function (url, options) {
-      options = options || {};
-      options.credentials = 'include';
-      return fetch(url, options);
-    },
+    plugins: [
+      function (hook) {
+        hook.beforeEach(function (html, next) {
+          if (typeof html === 'string' && /<!doctype html/i.test(html)) {
+            next('# Не удалось загрузить страницу\n\nОбновите вкладку (**Ctrl+F5**) и войдите снова.');
+            return;
+          }
+          next(html);
+        });
+      },
+    ],
   };
 
   var docsifyScript = document.createElement('script');
