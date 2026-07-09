@@ -25,45 +25,6 @@
   <div id="app"></div>
 
   <script src="access/config.js"></script>
-  <script>
-    function getBasePath() {
-      if (!location.hostname.endsWith('github.io')) return '/';
-      var match = location.pathname.match(/^\/([^/]+)\/?/);
-      if (match && match[1] !== 'index.html') return '/' + match[1] + '/';
-      return '/';
-    }
-
-    function bootDocsify() {
-      if (window.__docsifyBooted) return;
-      window.__docsifyBooted = true;
-
-      window.$docsify = {
-        name: 'Гайд по ферме CS',
-        repo: '',
-        basePath: getBasePath(),
-        relativePath: true,
-        loadSidebar: true,
-        subMaxLevel: 0,
-        auto2top: true,
-        search: {
-          placeholder: 'Поиск...',
-          noData: 'Ничего не найдено',
-          depth: 3
-        }
-      };
-
-      var docsifyScript = document.createElement('script');
-      docsifyScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/docsify/4.13.1/docsify.min.js';
-      docsifyScript.onload = function () {
-        var searchScript = document.createElement('script');
-        searchScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/docsify/4.13.1/plugins/search.min.js';
-        document.body.appendChild(searchScript);
-      };
-      document.body.appendChild(docsifyScript);
-    }
-
-    window.addEventListener('guide-auth-ok', bootDocsify, { once: true });
-  </script>
   <script src="access/login.js"></script>
 </body>
 </html>

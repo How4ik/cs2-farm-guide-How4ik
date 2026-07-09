@@ -42,7 +42,11 @@
   function unlockGuide() {
     document.body.classList.remove('access-locked');
     gate.classList.add('hidden');
-    window.dispatchEvent(new Event('guide-auth-ok'));
+    if (!window.__docsifyBooted) {
+      var bootScript = document.createElement('script');
+      bootScript.src = 'access/boot.js';
+      document.body.appendChild(bootScript);
+    }
   }
 
   function showError(message) {
