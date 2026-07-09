@@ -46,11 +46,11 @@ export default async (req) => {
       return jsonResponse(400, { ok: false, error: 'Не удалось определить устройство. Обновите страницу' });
     }
 
-    const allowed = getAllowedKeys();
+    const allowed = await getAllowedKeys();
     if (!allowed.length) {
       return jsonResponse(503, {
         ok: false,
-        error: 'Ключи не настроены. Запустите деплой с ACCESS_KEYS или загрузите access-keys.txt при сборке.',
+        error: 'Ключи не настроены. Выполните npm run upload-keys или задайте ACCESS_KEYS при сборке.',
       });
     }
     if (!allowed.includes(key)) {

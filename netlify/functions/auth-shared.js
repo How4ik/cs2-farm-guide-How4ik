@@ -1,11 +1,15 @@
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const { getStore } = require('@netlify/blobs');
 
 const COOKIE_NAME = 'guide_auth';
 const SESSION_DAYS = 90;
+const KEYS_STORE = 'guide-config';
+const KEYS_BLOB = 'allowed-keys';
 
 let cachedKeys = null;
+let keysPromise = null;
 
 function getSecret() {
   const secret = process.env.AUTH_SECRET;
@@ -34,24 +38,48 @@ function loadKeysFromEnv() {
     .join(',');
 }
 
-function getAllowedKeys() {
-  if (cachedKeys) return cachedKeys;
-
+function loadKeysFromFile() {
   try {
     const bakedPath = path.join(__dirname, 'allowed-keys.json');
-    if (fs.existsSync(bakedPath)) {
-      cachedKeys = JSON.parse(fs.readFileSync(bakedPath, 'utf8'));
-      if (Array.isArray(cachedKeys) && cachedKeys.length) {
-        return cachedKeys;
-      }
-    }
+    if (!fs.existsSync(bakedPath)) return null;
+    const keys = JSON.parse(fs.readFileSync(bakedPath, 'utf8'));
+    return Array.isArray(keys) && keys.length ? keys : null;
   } catch {
-    // fall through
+    return null;
   }
+}
 
-  const fromEnv = loadKeysFromEnv();
-  cachedKeys = fromEnv ? parseKeys(fromEnv) : [];
-  return cachedKeys;
+async function getAllowedKeys() {
+  if (cachedKeys) return cachedKeys;
+  if (keysPromise) return keysPromise;
+
+  keysPromise = (async () => {
+    const fromFile = loadKeysFromFile();
+    if (fromFile) {
+      cachedKeys = fromFile;
+      return cachedKeys;
+    }
+
+    try {
+      const store = getStore(KEYS_STORE);
+      const raw = await store.get(KEYS_BLOB);
+      if (raw) {
+        const keys = JSON.parse(raw);
+        if (Array.isArray(keys) && keys.length) {
+          cachedKeys = keys;
+          return cachedKeys;
+        }
+      }
+    } catch (err) {
+      console.error('Failed to read keys from Netlify Blobs:', err);
+    }
+
+    const fromEnv = loadKeysFromEnv();
+    cachedKeys = fromEnv ? parseKeys(fromEnv) : [];
+    return cachedKeys;
+  })();
+
+  return keysPromise;
 }
 
 function signPayload(payload) {

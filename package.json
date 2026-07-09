@@ -7,7 +7,8 @@
     "serve": "docsify serve . --port 4000",
     "serve:honkit": "honkit serve",
     "dev": "npm run build && netlify dev",
-    "keys": "node scripts/generate-access-keys.js"
+    "keys": "node scripts/generate-access-keys.js",
+    "upload-keys": "node scripts/upload-keys-to-blob.js"
   },
   "dependencies": {
     "@netlify/blobs": "^8.1.0"

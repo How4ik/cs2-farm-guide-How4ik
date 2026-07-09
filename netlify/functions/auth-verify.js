@@ -21,7 +21,7 @@ export default async (req) => {
     if (!session) {
       return jsonResponse(401, { ok: false });
     }
-    const allowed = getAllowedKeys();
+    const allowed = await getAllowedKeys();
     if (!allowed.includes(session.key)) {
       return jsonResponse(401, { ok: false });
     }
