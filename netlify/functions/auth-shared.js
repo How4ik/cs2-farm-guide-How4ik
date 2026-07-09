@@ -1,7 +1,11 @@
 const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 
 const COOKIE_NAME = 'guide_auth';
 const SESSION_DAYS = 90;
+
+let cachedKeys = null;
 
 function getSecret() {
   const secret = process.env.AUTH_SECRET;
@@ -11,7 +15,14 @@ function getSecret() {
   return secret;
 }
 
-function getAllowedKeys() {
+function parseKeys(raw) {
+  return raw
+    .split(/[\n,;]+/)
+    .map((k) => k.trim().toUpperCase())
+    .filter(Boolean);
+}
+
+function loadKeysFromEnv() {
   const parts = [process.env.ACCESS_KEYS];
   for (let i = 2; i <= 10; i += 1) {
     const value = process.env[`ACCESS_KEYS_${i}`];
@@ -20,10 +31,27 @@ function getAllowedKeys() {
 
   return parts
     .filter(Boolean)
-    .join(',')
-    .split(/[\n,;]+/)
-    .map((k) => k.trim().toUpperCase())
-    .filter(Boolean);
+    .join(',');
+}
+
+function getAllowedKeys() {
+  if (cachedKeys) return cachedKeys;
+
+  try {
+    const bakedPath = path.join(__dirname, 'allowed-keys.json');
+    if (fs.existsSync(bakedPath)) {
+      cachedKeys = JSON.parse(fs.readFileSync(bakedPath, 'utf8'));
+      if (Array.isArray(cachedKeys) && cachedKeys.length) {
+        return cachedKeys;
+      }
+    }
+  } catch {
+    // fall through
+  }
+
+  const fromEnv = loadKeysFromEnv();
+  cachedKeys = fromEnv ? parseKeys(fromEnv) : [];
+  return cachedKeys;
 }
 
 function signPayload(payload) {
@@ -59,14 +87,23 @@ function cookieHeader(token) {
 }
 
 function jsonResponse(status, body, extraHeaders = {}) {
-  return {
-    statusCode: status,
+  return new Response(JSON.stringify(body), {
+    status,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
       ...extraHeaders,
     },
-    body: JSON.stringify(body),
-  };
+  });
+}
+
+function parseCookies(header) {
+  const out = {};
+  if (!header) return out;
+  for (const part of header.split(';')) {
+    const [name, ...rest] = part.trim().split('=');
+    if (name) out[name] = rest.join('=');
+  }
+  return out;
 }
 
 module.exports = {
@@ -77,4 +114,5 @@ module.exports = {
   verifyToken,
   cookieHeader,
   jsonResponse,
+  parseCookies,
 };

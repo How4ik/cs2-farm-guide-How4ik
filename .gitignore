@@ -7,6 +7,7 @@ Thumbs.db
 access-keys.txt
 access-keys-netlify*.txt
 access/config.js
+netlify/functions/allowed-keys.json
 .env
 .env.*
 !.env.example

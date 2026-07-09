@@ -1,4 +1,4 @@
-const { connectLambda, getStore } = require('@netlify/blobs');
+const { getStore } = require('@netlify/blobs');
 const {
   getAllowedKeys,
   createSession,
@@ -7,28 +7,19 @@ const {
   getSecret,
 } = require('./auth-shared');
 
-function parseBody(event) {
-  try {
-    return JSON.parse(event.body || '{}');
-  } catch {
-    return {};
-  }
-}
-
-exports.handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 204,
+export default async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
       },
-      body: '',
-    };
+    });
   }
 
-  if (event.httpMethod !== 'POST') {
+  if (req.method !== 'POST') {
     return jsonResponse(405, { ok: false, error: 'Method not allowed' });
   }
 
@@ -42,7 +33,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const body = parseBody(event);
+    const body = await req.json().catch(() => ({}));
     const key = String(body.key || '')
       .trim()
       .toUpperCase();
@@ -59,14 +50,13 @@ exports.handler = async (event) => {
     if (!allowed.length) {
       return jsonResponse(503, {
         ok: false,
-        error: 'ACCESS_KEYS не настроены в Netlify. Добавьте переменную и перезапустите деплой.',
+        error: 'Ключи не настроены. Запустите деплой с ACCESS_KEYS или загрузите access-keys.txt при сборке.',
       });
     }
     if (!allowed.includes(key)) {
       return jsonResponse(403, { ok: false, error: 'Неверный ключ доступа' });
     }
 
-    connectLambda(event);
     const store = getStore('guide-keys');
     const recordRaw = await store.get(key);
 

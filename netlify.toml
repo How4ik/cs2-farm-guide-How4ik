@@ -6,6 +6,7 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
   external_node_modules = ["@netlify/blobs"]
+  included_files = ["netlify/functions/allowed-keys.json"]
 
 [[edge_functions]]
   function = "protect"
