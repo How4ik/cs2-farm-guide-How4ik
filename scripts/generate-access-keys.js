@@ -18,5 +18,8 @@ fs.writeFileSync(outFile, keys.join('\n') + '\n', 'utf8');
 
 console.log(`Generated ${keys.length} keys -> ${outFile}`);
 console.log('');
-console.log('Add to Netlify environment variable ACCESS_KEYS (comma-separated):');
-console.log(keys.join(','));
+console.log('Add to GitHub → Settings → Secrets → Actions:');
+console.log('  ACCESS_KEYS = ' + keys.join(','));
+console.log('');
+console.log('For global one-device binding, also add SUPABASE_URL and SUPABASE_ANON_KEY');
+console.log('(run supabase/setup.sql in your Supabase project first).');

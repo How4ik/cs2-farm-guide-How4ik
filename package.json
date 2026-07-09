@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Гайд по ферме кейсов CS2",
   "scripts": {
-    "build": "node scripts/prepare-site.js",
+    "build": "node scripts/build-access-config.js && node scripts/prepare-site.js",
     "serve": "docsify serve . --port 4000",
     "serve:honkit": "honkit serve",
     "dev": "npm run build && netlify dev",

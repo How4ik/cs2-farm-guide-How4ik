@@ -5,6 +5,7 @@ dist/
 Thumbs.db
 *.log
 access-keys.txt
+access/config.js
 .env
 .env.*
 !.env.example

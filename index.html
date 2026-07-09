@@ -24,17 +24,13 @@
 
   <div id="app"></div>
 
+  <script src="access/config.js"></script>
   <script>
     function getBasePath() {
       if (!location.hostname.endsWith('github.io')) return '/';
       var match = location.pathname.match(/^\/([^/]+)\/?/);
       if (match && match[1] !== 'index.html') return '/' + match[1] + '/';
       return '/';
-    }
-
-    function isPublicHost() {
-      var host = location.hostname;
-      return host === 'localhost' || host === '127.0.0.1' || host.endsWith('github.io');
     }
 
     function bootDocsify() {
@@ -66,11 +62,7 @@
       document.body.appendChild(docsifyScript);
     }
 
-    if (isPublicHost()) {
-      bootDocsify();
-    } else {
-      window.addEventListener('guide-auth-ok', bootDocsify, { once: true });
-    }
+    window.addEventListener('guide-auth-ok', bootDocsify, { once: true });
   </script>
   <script src="access/login.js"></script>
 </body>
