@@ -1,0 +1,9 @@
+root: ./
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+
+variables:
+  site_name: "Гайд по ферме CS"
+  site_description: "Полное обучение по созданию и настройке фермы в Counter-Strike"

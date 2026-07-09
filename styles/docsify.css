@@ -1,0 +1,295 @@
+/* Docsify — тёмная CS-тема */
+:root {
+  --theme-color: #f0a500;
+  --text-color-base: #e8e8e8;
+  --text-color-secondary: #b0b0b0;
+  --border-color: #3a3a3a;
+  --background-color: #0a0c10;
+  --sidebar-background: rgba(14, 16, 22, 0.92);
+  --panel-background: rgba(16, 18, 26, 0.82);
+}
+
+body {
+  background-color: var(--background-color) !important;
+  color: var(--text-color-base) !important;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 15% 40%, rgba(240, 165, 0, 0.09) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 85% 15%, rgba(74, 158, 255, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 55% at 70% 90%, rgba(240, 165, 0, 0.06) 0%, transparent 50%),
+    linear-gradient(160deg, #0a0c10 0%, #12151c 35%, #0d1018 65%, #080a0f 100%) !important;
+  background-attachment: fixed !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(240, 165, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 165, 0, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 45%),
+    radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+#main {
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar {
+  background: var(--sidebar-background) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-right: 1px solid rgba(240, 165, 0, 0.15) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35);
+}
+
+.sidebar-nav li strong {
+  color: #f0a500 !important;
+  text-transform: uppercase;
+  font-size: 0.72em;
+  letter-spacing: 1px;
+}
+
+.sidebar-nav ul ul {
+  padding-left: 12px;
+}
+
+.sidebar-nav ul ul li a {
+  font-size: 0.9em;
+}
+
+.sidebar-nav li a {
+  color: #c8c8c8 !important;
+}
+
+.sidebar-nav li a:hover {
+  color: #ffc233 !important;
+}
+
+.sidebar-nav li.active > a {
+  color: #f0a500 !important;
+  border-left: 3px solid #f0a500;
+  font-weight: 600;
+}
+
+.app-name-link {
+  color: #f0a500 !important;
+  font-weight: 700;
+}
+
+.search input {
+  background: #2a2a2a !important;
+  border-color: #444 !important;
+  color: #fff !important;
+}
+
+.content {
+  background: transparent !important;
+}
+
+.markdown-section {
+  color: #e0e0e0 !important;
+  max-width: 900px;
+  position: relative;
+  background: var(--panel-background);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(240, 165, 0, 0.14);
+  border-radius: 14px;
+  padding: 36px 42px;
+  margin: 24px auto 40px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.markdown-section::before,
+.markdown-section::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(240, 165, 0, 0.35);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.markdown-section::before {
+  top: 14px;
+  left: 14px;
+  border-width: 2px 0 0 2px;
+  border-radius: 4px 0 0 0;
+}
+
+.markdown-section::after {
+  bottom: 14px;
+  right: 14px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 4px 0;
+}
+
+.markdown-section h1 {
+  color: #ffffff !important;
+  font-size: 2em;
+  font-weight: 700;
+  border-bottom: 2px solid #f0a500;
+  padding-bottom: 0.35em;
+}
+
+.markdown-section h2 {
+  color: #f0a500 !important;
+  font-weight: 600;
+  border-left: 4px solid #f0a500;
+  padding-left: 12px;
+  margin-top: 1.6em;
+}
+
+.markdown-section h3 {
+  color: #7ec8ff !important;
+  font-weight: 600;
+}
+
+.markdown-section h4 {
+  color: #d0d0d0 !important;
+}
+
+.markdown-section p,
+.markdown-section li {
+  color: #e0e0e0 !important;
+  line-height: 1.75;
+}
+
+.markdown-section strong {
+  color: #ffffff !important;
+}
+
+.markdown-section a {
+  color: #5eb3ff !important;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(94, 179, 255, 0.35);
+}
+
+.markdown-section a:hover {
+  color: #ffc233 !important;
+  border-bottom-color: #ffc233;
+}
+
+.markdown-section hr {
+  border-color: #333 !important;
+}
+
+.markdown-section blockquote {
+  border-left: 4px solid #f0a500 !important;
+  background: rgba(240, 165, 0, 0.08) !important;
+  color: #d5d5d5 !important;
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+}
+
+.markdown-section code {
+  background: #2a2a2a !important;
+  color: #ffc233 !important;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.markdown-section pre {
+  background: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  border-radius: 8px;
+}
+
+.markdown-section pre code {
+  color: #e8e8e8 !important;
+  background: transparent !important;
+}
+
+.markdown-section table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.markdown-section table th {
+  background: #252525 !important;
+  color: #f0a500 !important;
+  border: 1px solid #3a3a3a !important;
+  padding: 10px 14px;
+}
+
+.markdown-section table td {
+  border: 1px solid #3a3a3a !important;
+  padding: 8px 14px;
+  color: #e0e0e0 !important;
+}
+
+.markdown-section table tr:nth-child(2n) {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.docsify-pagination-container {
+  border-top: 1px solid #333 !important;
+}
+
+.pagination-item-title {
+  color: #5eb3ff !important;
+}
+
+.pagination-item-label {
+  color: #aaa !important;
+}
+
+@media (max-width: 768px) {
+  .markdown-section {
+    padding: 24px 20px;
+    margin: 12px 10px 24px;
+  }
+
+  .markdown-section::before,
+  .markdown-section::after {
+    display: none;
+  }
+}
+
+/* Miro embed */
+.miro-embed-wrap {
+  position: relative;
+  width: 100%;
+  padding-bottom: 62%;
+  margin: 1.5rem 0 2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(240, 165, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  background: #161b22;
+}
+
+.miro-embed-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.markdown-section img {
+  max-width: min(100%, 720px);
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  border-radius: 8px;
+  border: 1px solid rgba(240, 165, 0, 0.15);
+}

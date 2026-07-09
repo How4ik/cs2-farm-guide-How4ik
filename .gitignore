@@ -1,0 +1,10 @@
+node_modules/
+_book/
+dist/
+.DS_Store
+Thumbs.db
+*.log
+access-keys.txt
+.env
+.env.*
+!.env.example

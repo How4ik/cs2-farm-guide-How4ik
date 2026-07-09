@@ -1,0 +1,19 @@
+{
+  "name": "cs2-farm-guide",
+  "version": "1.0.0",
+  "description": "Гайд по ферме кейсов CS2",
+  "scripts": {
+    "build": "node scripts/prepare-site.js",
+    "serve": "docsify serve . --port 4000",
+    "serve:honkit": "honkit serve",
+    "dev": "npm run build && netlify dev",
+    "keys": "node scripts/generate-access-keys.js"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  },
+  "devDependencies": {
+    "docsify-cli": "^4.4.4",
+    "honkit": "^6.0.0"
+  }
+}

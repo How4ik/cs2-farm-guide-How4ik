@@ -1,0 +1,10 @@
+{
+  "title": "Гайд по ферме CS",
+  "description": "Полное обучение по созданию и настройке фермы в Counter-Strike",
+  "author": "Misha",
+  "language": "ru",
+  "styles": {
+    "website": "styles/website.css"
+  },
+  "plugins": []
+}

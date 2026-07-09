@@ -1,0 +1,201 @@
+/* ============================================
+   Гайд по ферме CS — кастомные стили GitBook
+   ============================================ */
+
+/* --- Цветовая палитра (тёмная CS-тема) --- */
+:root {
+  --cs-orange: #f0a500;
+  --cs-orange-dark: #c48400;
+  --cs-dark: #1b1b1b;
+  --cs-darker: #111111;
+  --cs-gray: #2a2a2a;
+  --cs-light-gray: #888888;
+  --cs-white: #e8e8e8;
+  --cs-accent: #4a9eff;
+  --cs-success: #5cb85c;
+  --cs-warning: #f0ad4e;
+  --cs-danger: #d9534f;
+}
+
+/* --- Общий фон --- */
+.book .book-body .page-wrapper .page-inner {
+  max-width: 900px;
+}
+
+.book .book-body .body-inner {
+  background: var(--cs-darker);
+  color: var(--cs-white);
+}
+
+/* --- Шапка --- */
+.book .book-header {
+  background: var(--cs-dark);
+  border-bottom: 2px solid var(--cs-orange);
+}
+
+.book .book-header h1 {
+  color: var(--cs-orange);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* --- Боковая навигация --- */
+.book .book-summary {
+  background: var(--cs-dark);
+  border-right: 1px solid var(--cs-gray);
+}
+
+.book .book-summary ul.summary li a {
+  color: var(--cs-light-gray);
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.book .book-summary ul.summary li a:hover {
+  color: var(--cs-orange);
+  text-decoration: none;
+}
+
+.book .book-summary ul.summary li.active > a {
+  color: var(--cs-orange);
+  border-left: 3px solid var(--cs-orange);
+  background: rgba(240, 165, 0, 0.08);
+}
+
+.book .book-summary ul.summary li.header {
+  color: var(--cs-orange);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  letter-spacing: 1px;
+  margin-top: 1.5em;
+}
+
+/* --- Заголовки --- */
+.markdown-section h1 {
+  color: var(--cs-orange);
+  border-bottom: 2px solid var(--cs-gray);
+  padding-bottom: 0.3em;
+}
+
+.markdown-section h2 {
+  color: var(--cs-white);
+  border-left: 4px solid var(--cs-orange);
+  padding-left: 12px;
+}
+
+.markdown-section h3 {
+  color: var(--cs-accent);
+}
+
+/* --- Ссылки --- */
+.markdown-section a {
+  color: var(--cs-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.markdown-section a:hover {
+  border-bottom-color: var(--cs-accent);
+}
+
+/* --- Цитаты / блоки --- */
+.markdown-section blockquote {
+  border-left: 4px solid var(--cs-orange);
+  background: rgba(240, 165, 0, 0.06);
+  color: var(--cs-light-gray);
+  padding: 12px 20px;
+  border-radius: 0 6px 6px 0;
+}
+
+/* --- Код --- */
+.markdown-section code {
+  background: var(--cs-gray);
+  color: var(--cs-orange);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.markdown-section pre {
+  background: var(--cs-dark) !important;
+  border: 1px solid var(--cs-gray);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.markdown-section pre code {
+  background: transparent;
+  color: var(--cs-white);
+  padding: 0;
+}
+
+/* --- Таблицы --- */
+.markdown-section table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+
+.markdown-section table th {
+  background: var(--cs-gray);
+  color: var(--cs-orange);
+  padding: 10px 14px;
+  text-align: left;
+  border: 1px solid #3a3a3a;
+}
+
+.markdown-section table td {
+  padding: 8px 14px;
+  border: 1px solid #3a3a3a;
+  color: var(--cs-white);
+}
+
+.markdown-section table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* --- Списки --- */
+.markdown-section ul li,
+.markdown-section ol li {
+  margin-bottom: 0.4em;
+  line-height: 1.7;
+}
+
+/* --- Карточки (для GitBook hints) --- */
+.markdown-section .hint {
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 1.2em 0;
+}
+
+/* --- Кнопки навигации --- */
+.navigation {
+  border-top: 1px solid var(--cs-gray);
+  padding-top: 1em;
+}
+
+.navigation .navigation-next .fa,
+.navigation .navigation-prev .fa {
+  color: var(--cs-orange);
+}
+
+/* --- Поиск --- */
+#book-search-results .search-results .has-results {
+  color: var(--cs-orange);
+}
+
+/* --- Адаптив --- */
+@media (max-width: 768px) {
+  .book .book-body .page-wrapper .page-inner {
+    padding: 16px;
+  }
+
+  .markdown-section h1 {
+    font-size: 1.6em;
+  }
+
+  .markdown-section h2 {
+    font-size: 1.3em;
+  }
+}
