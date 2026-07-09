@@ -8,10 +8,18 @@
   const input = document.getElementById('access-key');
   const errorEl = document.getElementById('access-error');
   const submitBtn = document.getElementById('access-submit');
-  const config = window.__GUIDE_AUTH_CONFIG || { keyHashes: [] };
+  const config = window.__GUIDE_AUTH_CONFIG || {};
 
   function isLocalDev() {
     return location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  }
+
+  function getAuthMode() {
+    if (isLocalDev()) return 'local';
+    if (config.authMode === 'netlify' || location.hostname.endsWith('netlify.app')) {
+      return 'netlify';
+    }
+    return 'legacy';
   }
 
   function getDeviceId() {
@@ -41,16 +49,18 @@
     errorEl.textContent = message || '';
   }
 
-  function saveSession(keyHash) {
-    const session = {
-      keyHash,
-      deviceId: getDeviceId(),
-      exp: Date.now() + 90 * 24 * 60 * 60 * 1000,
-    };
-    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  function saveLegacySession(keyHash) {
+    localStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify({
+        keyHash,
+        deviceId: getDeviceId(),
+        exp: Date.now() + 90 * 24 * 60 * 60 * 1000,
+      })
+    );
   }
 
-  function readSession() {
+  function readLegacySession() {
     try {
       const raw = localStorage.getItem(SESSION_KEY);
       if (!raw) return null;
@@ -58,7 +68,7 @@
       if (!session.keyHash || !session.deviceId || !session.exp) return null;
       if (session.exp < Date.now()) return null;
       if (session.deviceId !== getDeviceId()) return null;
-      if (!config.keyHashes.includes(session.keyHash)) return null;
+      if (!(config.keyHashes || []).includes(session.keyHash)) return null;
       return session;
     } catch {
       return null;
@@ -69,10 +79,8 @@
     return Boolean(config.supabaseUrl && config.supabaseAnonKey);
   }
 
-  async function activateOnServer(keyHash) {
-    const deviceId = getDeviceId();
+  async function activateOnSupabase(keyHash) {
     const url = `${config.supabaseUrl.replace(/\/$/, '')}/rest/v1/rpc/activate_guide_key`;
-
     const res = await fetch(url, {
       method: 'POST',
       headers: {
@@ -82,10 +90,9 @@
       },
       body: JSON.stringify({
         p_key_hash: keyHash,
-        p_device_id: deviceId,
+        p_device_id: getDeviceId(),
       }),
     });
-
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
       throw new Error(data.message || data.error || 'Ошибка сервера авторизации');
@@ -138,32 +145,56 @@
     }
   }
 
-  async function activateKey(key) {
+  async function verifyNetlifySession() {
+    const res = await fetch('/.netlify/functions/auth-verify', {
+      method: 'GET',
+      credentials: 'same-origin',
+    });
+    return res.ok;
+  }
+
+  async function activateNetlifyKey(key) {
+    const res = await fetch('/.netlify/functions/auth-activate', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        key: key.trim(),
+        deviceId: getDeviceId(),
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) {
+      throw new Error(data.error || 'Не удалось активировать ключ');
+    }
+  }
+
+  async function activateLegacyKey(key) {
     const normalized = String(key || '').trim().toUpperCase();
     if (normalized.length < 8) {
       throw new Error('Введите ключ доступа');
     }
 
     const keyHash = await hashKey(normalized);
-    if (!config.keyHashes.includes(keyHash)) {
+    if (!(config.keyHashes || []).includes(keyHash)) {
       throw new Error('Неверный ключ доступа');
     }
 
     if (hasSupabase()) {
-      await activateOnServer(keyHash);
+      await activateOnSupabase(keyHash);
     } else {
       await activateLocally(keyHash);
     }
 
-    saveSession(keyHash);
+    saveLegacySession(keyHash);
   }
 
-  async function verifySession() {
-    const session = readSession();
+  async function verifyLegacySession() {
+    const session = readLegacySession();
     if (!session) return false;
 
     if (hasSupabase()) {
-      await activateOnServer(session.keyHash);
+      await activateOnSupabase(session.keyHash);
     } else {
       await verifyLocalBinding(session.keyHash);
     }
@@ -171,8 +202,22 @@
     return true;
   }
 
+  async function verifySession() {
+    if (getAuthMode() === 'netlify') {
+      return verifyNetlifySession();
+    }
+    return verifyLegacySession();
+  }
+
+  async function activateKey(key) {
+    if (getAuthMode() === 'netlify') {
+      return activateNetlifyKey(key);
+    }
+    return activateLegacyKey(key);
+  }
+
   async function init() {
-    if (isLocalDev()) {
+    if (getAuthMode() === 'local') {
       unlockGuide();
       return;
     }
@@ -180,7 +225,7 @@
     document.body.classList.add('access-locked');
     gate.classList.remove('hidden');
 
-    if (!config.keyHashes.length) {
+    if (getAuthMode() === 'legacy' && !(config.keyHashes || []).length) {
       showError('Ключи доступа не настроены. Добавьте ACCESS_KEYS в GitHub Secrets.');
       return;
     }
@@ -210,6 +255,5 @@
     });
   }
 
-  window.GuideAccess = { init, unlockGuide, verifySession };
   init();
 })();

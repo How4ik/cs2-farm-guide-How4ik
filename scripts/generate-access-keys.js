@@ -18,8 +18,8 @@ fs.writeFileSync(outFile, keys.join('\n') + '\n', 'utf8');
 
 console.log(`Generated ${keys.length} keys -> ${outFile}`);
 console.log('');
-console.log('Add to GitHub → Settings → Secrets → Actions:');
+console.log('Add to Netlify → Site settings → Environment variables:');
+console.log('  AUTH_SECRET = (random string, 32+ chars)');
 console.log('  ACCESS_KEYS = ' + keys.join(','));
 console.log('');
-console.log('For global one-device binding, also add SUPABASE_URL and SUPABASE_ANON_KEY');
-console.log('(run supabase/setup.sql in your Supabase project first).');
+console.log('For GitHub Pages fallback, use GitHub Secrets instead.');

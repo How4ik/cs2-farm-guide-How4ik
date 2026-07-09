@@ -29,11 +29,17 @@ function loadKeys() {
   return [];
 }
 
+function hasSupabaseEnv() {
+  return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY);
+}
+
 const keys = loadKeys();
 const keyHashes = [...new Set(keys.map(sha256))];
+const isNetlify = process.env.NETLIFY === 'true';
 
 const config = {
-  keyHashes,
+  authMode: isNetlify ? 'netlify' : hasSupabaseEnv() ? 'supabase' : 'client',
+  keyHashes: isNetlify ? [] : keyHashes,
   supabaseUrl: process.env.SUPABASE_URL || '',
   supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
 };
@@ -44,7 +50,7 @@ fs.writeFileSync(
   'utf8'
 );
 
-console.log(`Access config -> access/config.js (${keyHashes.length} keys)`);
-if (!keyHashes.length) {
+console.log(`Access config -> access/config.js (${isNetlify ? 'netlify mode' : keyHashes.length + ' keys'})`);
+if (!isNetlify && !keyHashes.length) {
   console.warn('Warning: no ACCESS_KEYS set. Auth will reject all keys in production.');
 }
