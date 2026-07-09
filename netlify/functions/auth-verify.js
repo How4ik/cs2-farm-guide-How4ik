@@ -1,4 +1,4 @@
-const { verifyToken, jsonResponse, COOKIE_NAME } = require('./auth-shared');
+const { verifyToken, jsonResponse, COOKIE_NAME, getAllowedKeys } = require('./auth-shared');
 
 function parseCookies(header) {
   const out = {};
@@ -30,6 +30,10 @@ exports.handler = async (event) => {
     const cookies = parseCookies(event.headers.cookie || event.headers.Cookie);
     const session = verifyToken(cookies[COOKIE_NAME]);
     if (!session) {
+      return jsonResponse(401, { ok: false });
+    }
+    const allowed = getAllowedKeys();
+    if (!allowed.includes(session.key)) {
       return jsonResponse(401, { ok: false });
     }
     return jsonResponse(200, { ok: true });

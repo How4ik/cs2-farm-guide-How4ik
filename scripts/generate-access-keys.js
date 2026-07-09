@@ -14,12 +14,13 @@ const keys = Array.from({ length: count }, () => {
 });
 
 const outFile = path.join(__dirname, '..', 'access-keys.txt');
+const outNetlify = path.join(__dirname, '..', 'access-keys-netlify.txt');
+
 fs.writeFileSync(outFile, keys.join('\n') + '\n', 'utf8');
+fs.writeFileSync(outNetlify, keys.join(','), 'utf8');
 
 console.log(`Generated ${keys.length} keys -> ${outFile}`);
+console.log(`Netlify one-line copy -> ${outNetlify}`);
 console.log('');
-console.log('Add to Netlify → Site settings → Environment variables:');
-console.log('  AUTH_SECRET = (random string, 32+ chars)');
-console.log('  ACCESS_KEYS = ' + keys.join(','));
-console.log('');
-console.log('For GitHub Pages fallback, use GitHub Secrets instead.');
+console.log('Netlify → Site configuration → Environment variables → ACCESS_KEYS');
+console.log('Paste the full contents of access-keys-netlify.txt');
