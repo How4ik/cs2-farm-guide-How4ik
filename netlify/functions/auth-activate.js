@@ -1,9 +1,10 @@
-const { getStore } = require('@netlify/blobs');
+const { connectLambda, getStore } = require('@netlify/blobs');
 const {
   getAllowedKeys,
   createSession,
   cookieHeader,
   jsonResponse,
+  getSecret,
 } = require('./auth-shared');
 
 function parseBody(event) {
@@ -32,6 +33,15 @@ exports.handler = async (event) => {
   }
 
   try {
+    getSecret();
+  } catch {
+    return jsonResponse(503, {
+      ok: false,
+      error: 'AUTH_SECRET не настроен в Netlify. Добавьте переменную и перезапустите деплой.',
+    });
+  }
+
+  try {
     const body = parseBody(event);
     const key = String(body.key || '')
       .trim()
@@ -46,10 +56,17 @@ exports.handler = async (event) => {
     }
 
     const allowed = getAllowedKeys();
+    if (!allowed.length) {
+      return jsonResponse(503, {
+        ok: false,
+        error: 'ACCESS_KEYS не настроены в Netlify. Добавьте переменную и перезапустите деплой.',
+      });
+    }
     if (!allowed.includes(key)) {
       return jsonResponse(403, { ok: false, error: 'Неверный ключ доступа' });
     }
 
+    connectLambda(event);
     const store = getStore('guide-keys');
     const recordRaw = await store.get(key);
 

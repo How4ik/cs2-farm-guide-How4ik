@@ -65,6 +65,7 @@ function jsonResponse(status, body, extraHeaders = {}) {
 module.exports = {
   COOKIE_NAME,
   getAllowedKeys,
+  getSecret,
   createSession,
   verifyToken,
   cookieHeader,
