@@ -1,7 +1,7 @@
 const COOKIE_NAME = 'guide_auth';
 
 const PROTECTED_PREFIXES = ['/chapters/'];
-const PROTECTED_EXACT = ['/_sidebar.md', '/README.md'];
+const PROTECTED_EXACT = ['/_sidebar.md', '/README.md', '/readme.md'];
 
 function shouldProtect(pathname) {
   if (PROTECTED_EXACT.includes(pathname)) return true;
