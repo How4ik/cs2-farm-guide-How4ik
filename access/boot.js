@@ -8,6 +8,9 @@
     basePath: '/',
     relativePath: true,
     loadSidebar: true,
+    alias: {
+      '/.*/_sidebar.md': '/_sidebar.md',
+    },
     subMaxLevel: 0,
     auto2top: true,
     search: {
