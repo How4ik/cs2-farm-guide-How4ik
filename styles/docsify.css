@@ -293,3 +293,50 @@ body::after {
   border-radius: 8px;
   border: 1px solid rgba(240, 165, 0, 0.15);
 }
+
+/* Маскот в боковом поле справа от контента */
+.guide-mascot {
+  display: none;
+  position: fixed;
+  right: max(12px, calc((100vw - 300px - 900px) / 2 - 40px));
+  bottom: 6%;
+  z-index: 2;
+  width: clamp(140px, 13vw, 220px);
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.55));
+  animation: mascot-float 4.5s ease-in-out infinite;
+}
+
+.guide-mascot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+body.access-locked .guide-mascot {
+  display: none !important;
+}
+
+@keyframes mascot-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@media (min-width: 1280px) {
+  body:not(.access-locked) .guide-mascot {
+    display: block;
+  }
+}
+
+@media (min-width: 1600px) {
+  .guide-mascot {
+    right: max(24px, calc((100vw - 300px - 900px) / 2 - 20px));
+    width: clamp(180px, 14vw, 260px);
+  }
+}
