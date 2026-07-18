@@ -22,7 +22,7 @@ const copyDir = (srcDir, destDir) => {
 if (fs.existsSync(out)) fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out);
 
-['index.html', 'README.md', '_sidebar.md', '.nojekyll', 'favicon.png', 'mascot-pointer.png'].forEach((file) => {
+['index.html', 'README.md', '_sidebar.md', '.nojekyll', 'favicon.png', 'mascot-farmer.png'].forEach((file) => {
   copy(path.join(root, file), path.join(out, file));
 });
 
