@@ -1,22 +1,22 @@
 /* Docsify — тёмная CS-тема */
 :root {
   --theme-color: #f0a500;
-  --text-color-base: #e8e8e8;
-  --text-color-secondary: #b0b0b0;
-  --border-color: #3a3a3a;
-  --background-color: #0a0c10;
-  --sidebar-background: rgba(14, 16, 22, 0.92);
-  --panel-background: rgba(16, 18, 26, 0.82);
+  --text-color-base: #f0f0f0;
+  --text-color-secondary: #c4c4c4;
+  --border-color: #4a4a4a;
+  --background-color: #151821;
+  --sidebar-background: rgba(28, 32, 42, 0.94);
+  --panel-background: rgba(32, 36, 48, 0.9);
 }
 
 body {
   background-color: var(--background-color) !important;
   color: var(--text-color-base) !important;
   background-image:
-    radial-gradient(ellipse 80% 60% at 15% 40%, rgba(240, 165, 0, 0.09) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 50% at 85% 15%, rgba(74, 158, 255, 0.07) 0%, transparent 50%),
-    radial-gradient(ellipse 70% 55% at 70% 90%, rgba(240, 165, 0, 0.06) 0%, transparent 50%),
-    linear-gradient(160deg, #0a0c10 0%, #12151c 35%, #0d1018 65%, #080a0f 100%) !important;
+    radial-gradient(ellipse 80% 60% at 15% 40%, rgba(240, 165, 0, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 85% 15%, rgba(74, 158, 255, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 55% at 70% 90%, rgba(240, 165, 0, 0.1) 0%, transparent 50%),
+    linear-gradient(160deg, #171a24 0%, #1e2330 35%, #191d28 65%, #141720 100%) !important;
   background-attachment: fixed !important;
 }
 
@@ -27,10 +27,10 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(240, 165, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(240, 165, 0, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(240, 165, 0, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 165, 0, 0.055) 1px, transparent 1px);
   background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+  mask-image: radial-gradient(ellipse at center, black 35%, transparent 88%);
 }
 
 body::after {
@@ -40,8 +40,8 @@ body::after {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 45%),
-    radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.55) 100%);
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06) 0%, transparent 45%),
+    radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.28) 100%);
 }
 
 #main {
@@ -73,7 +73,7 @@ body::after {
 }
 
 .sidebar-nav li a {
-  color: #c8c8c8 !important;
+  color: #d6d6d6 !important;
 }
 
 .sidebar-nav li a:hover {
@@ -92,8 +92,8 @@ body::after {
 }
 
 .search input {
-  background: #2a2a2a !important;
-  border-color: #444 !important;
+  background: #2f3544 !important;
+  border-color: #555 !important;
   color: #fff !important;
 }
 
@@ -102,17 +102,17 @@ body::after {
 }
 
 .markdown-section {
-  color: #e0e0e0 !important;
+  color: #ececec !important;
   max-width: 900px;
   position: relative;
   background: var(--panel-background);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(240, 165, 0, 0.14);
+  border: 1px solid rgba(240, 165, 0, 0.2);
   border-radius: 14px;
   padding: 36px 42px;
   margin: 24px auto 40px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .markdown-section::before,
@@ -167,7 +167,7 @@ body::after {
 
 .markdown-section p,
 .markdown-section li {
-  color: #e0e0e0 !important;
+  color: #ececec !important;
   line-height: 1.75;
 }
 
@@ -223,20 +223,20 @@ body::after {
 }
 
 .markdown-section table th {
-  background: #252525 !important;
+  background: #2e3340 !important;
   color: #f0a500 !important;
-  border: 1px solid #3a3a3a !important;
+  border: 1px solid #4a4a4a !important;
   padding: 10px 14px;
 }
 
 .markdown-section table td {
-  border: 1px solid #3a3a3a !important;
+  border: 1px solid #4a4a4a !important;
   padding: 8px 14px;
-  color: #e0e0e0 !important;
+  color: #ececec !important;
 }
 
 .markdown-section table tr:nth-child(2n) {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
 }
 
 .docsify-pagination-container {
