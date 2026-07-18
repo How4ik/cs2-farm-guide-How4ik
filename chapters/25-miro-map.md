@@ -8,6 +8,8 @@
 
 [Открыть доску в Miro в полном размере](https://miro.com/app/board/uXjVHJPLse4=/?share_link_id=620504156365)
 
+Для учёта аккаунтов используйте [таблицу в Notion](chapters/32-notion-table.md).
+
 ---
 
 ## Что на доске

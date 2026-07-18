@@ -50,3 +50,4 @@
   - [Операционка](chapters/23-operations.md)
   - [Хранилка](chapters/24-storage-scaling.md)
   - [Таблица-Гайд (Miro)](chapters/25-miro-map.md)
+  - [Таблица аккаунтов (Notion)](chapters/32-notion-table.md)
